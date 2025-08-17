@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { authClient } from "@/lib/auth-client"
 import {
-  SignupFormData,
+  SignupSchema,
   signupSchema,
 } from "@/lib/validations/sign-up-validation"
 import { CHECK_EMAIL_ROUTE, ONBOARDING_ROUTE } from "@/routes"
@@ -29,7 +29,7 @@ const SignUpForm = () => {
   const [showPassword, setShowPassword] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-  const form = useForm<SignupFormData>({
+  const form = useForm<SignupSchema>({
     resolver: zodResolver(signupSchema),
     defaultValues: {
       name: "",
@@ -44,7 +44,7 @@ const SignUpForm = () => {
     formState: { isSubmitting },
   } = form
 
-  const onSubmit = async (data: SignupFormData) => {
+  const onSubmit = async (data: SignupSchema) => {
     setErrorMessage(null)
 
     await authClient.signUp.email(

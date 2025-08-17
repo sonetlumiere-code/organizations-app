@@ -1,6 +1,8 @@
 import { auth } from "@/lib/auth"
 import prisma from "@/lib/db"
+import { LANDING_ROUTE } from "@/routes"
 import { headers } from "next/headers"
+import { redirect } from "next/navigation"
 
 interface DashboardPageProps {
   params: Promise<{ orgId: string }>
@@ -20,10 +22,7 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
   const organization = await prisma.organization.findUnique({
     where: { id: orgId },
     include: {
-      memberships: {
-        where: { userId: session.user.id },
-        include: { role: true },
-      },
+      members: true,
     },
   })
 
@@ -31,14 +30,20 @@ export default async function DashboardPage({ params }: DashboardPageProps) {
     return <div>Organization not found.</div>
   }
 
-  if (organization.memberships.length === 0) {
-    return <div>You do not have access to this organization.</div>
+  console.log(organization)
+
+  const isMember = organization.members.some(
+    (member) => member.userId === session.user.id
+  )
+
+  if (!isMember) {
+    console.error("User is not member of this organization")
+    redirect(LANDING_ROUTE)
   }
 
   return (
-    <div>
+    <div className="">
       <h1>{organization.name} Dashboard</h1>
-      <pre>{JSON.stringify({ session, organization }, null, 2)}</pre>
     </div>
   )
 }

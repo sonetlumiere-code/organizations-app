@@ -1,6 +1,7 @@
 import { betterAuth } from "better-auth"
 import { prismaAdapter } from "better-auth/adapters/prisma"
 import { nextCookies } from "better-auth/next-js"
+import { organization } from "better-auth/plugins"
 import { Resend } from "resend"
 import prisma from "./db"
 
@@ -68,5 +69,5 @@ export const auth = betterAuth({
   //     } as AuthUser
   //   },
   // },
-  plugins: [nextCookies()],
+  plugins: [organization(), nextCookies()],
 })

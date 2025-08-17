@@ -9,4 +9,4 @@ export const signupSchema = z.object({
     .max(128, "Password must be at most 128 characters long"),
 })
 
-export type SignupFormData = z.infer<typeof signupSchema>
+export type SignupSchema = z.infer<typeof signupSchema>

@@ -2,7 +2,7 @@ const LANDING_ROUTE: string = "/"
 const DASHBOARD_ROUTE: string = "/dashboard"
 const CHECK_EMAIL_ROUTE: string = "/check-email"
 const VERIFY_EMAIL_ROUTE: string = "/verify-email"
-const ONBOARDING_ROUTE: string = "/on-boarding"
+const ONBOARDING_ROUTE: string = "/onboarding"
 const SIGN_IN_ROUTE: string = "/sign-in"
 const SIGN_UP_ROUTE: string = "/sign-up"
 

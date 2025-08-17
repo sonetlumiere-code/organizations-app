@@ -17,15 +17,12 @@ type AdminDropdownProps = {
 }
 
 const AdminProfileDropdown = async ({ user }: AdminDropdownProps) => {
-  const memberships = await prisma.membership.findMany({
+  const userMemberships = await prisma.member.findMany({
     where: { userId: user.id },
     select: {
       organization: { select: { id: true, name: true } },
-      isAdmin: true,
     },
   })
-
-  const adminMemberships = memberships?.filter((m) => m.isAdmin) ?? []
 
   return (
     <DropdownMenu>
@@ -33,13 +30,12 @@ const AdminProfileDropdown = async ({ user }: AdminDropdownProps) => {
         <UserAvatar user={user} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {adminMemberships.map((m) => (
-          <Link
-            key={m.organization.id}
-            href={`${DASHBOARD_ROUTE}/${m.organization.id}`}
-          >
-            {m.organization.name} Dashboard
-          </Link>
+        {userMemberships.map((m) => (
+          <DropdownMenuItem key={m.organization.id}>
+            <Link href={`${DASHBOARD_ROUTE}/${m.organization.id}`}>
+              {m.organization.name} Dashboard
+            </Link>
+          </DropdownMenuItem>
         ))}
 
         <SignOutButton>

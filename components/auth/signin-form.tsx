@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input"
 import { authClient } from "@/lib/auth-client"
 import {
-  SigninFormData,
+  SigninSchema,
   signinSchema,
 } from "@/lib/validations/sign-in-validation"
 import { DASHBOARD_ROUTE } from "@/routes"
@@ -29,7 +29,7 @@ export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-  const form = useForm<SigninFormData>({
+  const form = useForm<SigninSchema>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
       email: "",
@@ -43,7 +43,7 @@ export default function SignInForm() {
     formState: { isSubmitting },
   } = form
 
-  const onSubmit = async (data: SigninFormData) => {
+  const onSubmit = async (data: SigninSchema) => {
     setErrorMessage(null)
 
     await authClient.signIn.email(

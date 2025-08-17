@@ -1,3 +1,4 @@
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,101 +9,36 @@ datasource db {
 }
 
 model User {
-  id            String   @id @default(cuid())
-  email         String   @unique
-  emailVerified Boolean?
-  name          String?
-  passwordHash  String?
+  id            String       @id
+  name          String
+  email         String
+  emailVerified Boolean
   image         String?
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-
-  memberships   Membership[]
-  organizations Organization[]
+  createdAt     DateTime
+  updatedAt     DateTime
   sessions      Session[]
   accounts      Account[]
+  members       Member[]
+  invitations   Invitation[]
 
-  @@map("users")
-}
-
-model Organization {
-  id          String   @id @default(cuid())
-  name        String
-  slug        String   @unique
-  description String?
-  createdById String
-  createdBy   User     @relation(fields: [createdById], references: [id])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  memberships Membership[]
-  roles       Role[]
-  invitations Invitation[]
-
-  @@map("organizations")
-}
-
-model Membership {
-  id       String   @id @default(cuid())
-  userId   String
-  orgId    String
-  roleId   String?
-  isAdmin  Boolean  @default(false)
-  joinedAt DateTime @default(now())
-
-  user         User         @relation(fields: [userId], references: [id])
-  organization Organization @relation(fields: [orgId], references: [id])
-  role         Role?        @relation(fields: [roleId], references: [id])
-
-  @@unique([userId, orgId])
-  @@map("memberships")
-}
-
-model Role {
-  id          String   @id @default(cuid())
-  name        String
-  description String?
-  orgId       String
-  permissions String[] @default([])
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  organization Organization @relation(fields: [orgId], references: [id])
-  membership   Membership[]
-
-  @@unique([name, orgId])
-  @@map("roles")
-}
-
-model Invitation {
-  id        String   @id @default(cuid())
-  orgId     String
-  inviterId String
-  email     String
-  token     String   @unique
-  expiresAt DateTime
-  accepted  Boolean  @default(false)
-  createdAt DateTime @default(now())
-
-  organization Organization @relation(fields: [orgId], references: [id])
-
-  @@map("invitations")
+  @@unique([email])
+  @@map("user")
 }
 
 model Session {
-  id        String   @id
-  expiresAt DateTime
-  token     String
-  createdAt DateTime
-  updatedAt DateTime
-  ipAddress String?
-  userAgent String?
-  userId    String
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id                   String   @id
+  expiresAt            DateTime
+  token                String
+  createdAt            DateTime
+  updatedAt            DateTime
+  ipAddress            String?
+  userAgent            String?
+  userId               String
+  user                 User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  activeOrganizationId String?
 
   @@unique([token])
-  @@map("sessions")
+  @@map("session")
 }
 
 model Account {
@@ -110,6 +46,7 @@ model Account {
   accountId             String
   providerId            String
   userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   accessToken           String?
   refreshToken          String?
   idToken               String?
@@ -120,9 +57,7 @@ model Account {
   createdAt             DateTime
   updatedAt             DateTime
 
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@map("accounts")
+  @@map("account")
 }
 
 model Verification {
@@ -133,5 +68,45 @@ model Verification {
   createdAt  DateTime?
   updatedAt  DateTime?
 
-  @@map("verifications")
+  @@map("verification")
+}
+
+model Organization {
+  id          String       @id
+  name        String
+  slug        String?
+  logo        String?
+  createdAt   DateTime
+  metadata    String?
+  members     Member[]
+  invitations Invitation[]
+
+  @@unique([slug])
+  @@map("organization")
+}
+
+model Member {
+  id             String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  role           String
+  createdAt      DateTime
+
+  @@map("member")
+}
+
+model Invitation {
+  id             String       @id
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  email          String
+  role           String?
+  status         String
+  expiresAt      DateTime
+  inviterId      String
+  user           User         @relation(fields: [inviterId], references: [id], onDelete: Cascade)
+
+  @@map("invitation")
 }
