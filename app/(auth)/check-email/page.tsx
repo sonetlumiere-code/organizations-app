@@ -1,21 +1,32 @@
 /* eslint-disable @next/next/no-img-element */
-
-import SignInForm from "@/components/auth/signin-form"
 import { Icons } from "@/components/icons"
 import { buttonVariants } from "@/components/ui/button"
+import prisma from "@/lib/db"
 import { cn } from "@/lib/utils"
 import { LANDING_ROUTE, SIGN_UP_ROUTE } from "@/routes"
-import { Metadata } from "next"
 import Link from "next/link"
+import { redirect } from "next/navigation"
 
 const appName = process.env.APP_NAME
 
-export const metadata: Metadata = {
-  title: `Sign In - ${appName}`,
-  description: "Sign In.",
+type CheckEmailProps = {
+  searchParams: Promise<{ email: string }>
 }
 
-export default async function LoginPage() {
+const CheckEmail = async ({ searchParams }: CheckEmailProps) => {
+  const { email } = await searchParams
+
+  if (!email) redirect(LANDING_ROUTE)
+
+  const dbEmail = await prisma.user.findFirst({
+    where: {
+      email,
+      emailVerified: false,
+    },
+  })
+
+  if (!dbEmail) redirect(LANDING_ROUTE)
+
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
       <Link
@@ -41,24 +52,22 @@ export default async function LoginPage() {
             />
           </Link>
           <h1 className="text-2xl font-semibold tracking-tight">
-            Welcome back
+            Verify your email
           </h1>
-          <p className="text-sm text-muted-foreground">
-            Enter your credentials to log in
-          </p>
+          <p className="text-sm text-muted-foreground">Email sent to {email}</p>
         </div>
-        <div className="px-4">
-          <SignInForm />
-        </div>
+
         <p className="px-8 text-center text-sm text-muted-foreground">
           <Link
             href={SIGN_UP_ROUTE}
             className="hover:text-brand underline underline-offset-4"
           >
-            Don&#39;t have an account yet? Sign up
+            Don&apos;t have an account yet? Sign up
           </Link>
         </p>
       </div>
     </div>
   )
 }
+
+export default CheckEmail
