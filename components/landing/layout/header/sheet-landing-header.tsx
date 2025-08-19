@@ -12,7 +12,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { Skeleton } from "@/components/ui/skeleton"
-import { authClient } from "@/lib/auth-client"
+import { authClient } from "@/lib/auth/auth-client"
 import { cn } from "@/lib/utils"
 import { LANDING_ROUTE, SIGN_IN_ROUTE, SIGN_UP_ROUTE } from "@/routes"
 import Link from "next/link"

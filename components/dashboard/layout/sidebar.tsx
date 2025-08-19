@@ -8,12 +8,9 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import {
-  AudioWaveform,
   BookOpen,
   Bot,
-  Command,
   Frame,
-  GalleryVerticalEnd,
   Map,
   PieChart,
   Settings2,
@@ -26,28 +23,6 @@ import { OrganizationSwitcher } from "./organization-switcher"
 
 // This is sample data.
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  teams: [
-    {
-      name: "Acme Inc",
-      logo: GalleryVerticalEnd,
-      plan: "Enterprise",
-    },
-    {
-      name: "Acme Corp.",
-      logo: AudioWaveform,
-      plan: "Startup",
-    },
-    {
-      name: "Evil Corp.",
-      logo: Command,
-      plan: "Free",
-    },
-  ],
   navMain: [
     {
       title: "Playground",
@@ -160,14 +135,14 @@ export function DashboardSidebar({
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
-        <OrganizationSwitcher organizations={data.teams} />
+        <OrganizationSwitcher />
       </SidebarHeader>
       <SidebarContent>
         <DashboardNavMain items={data.navMain} />
         <DashboardNavProjects projects={data.projects} />
       </SidebarContent>
       <SidebarFooter>
-        <DashboardNavUser user={data.user} />
+        <DashboardNavUser />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

@@ -3,7 +3,7 @@
 import { Icons } from "@/components/icons"
 import OnboardingForm from "@/components/onboarding/onboarding-form"
 import { buttonVariants } from "@/components/ui/button"
-import { auth } from "@/lib/auth"
+import { auth } from "@/lib/auth/auth"
 import { cn } from "@/lib/utils"
 import { LANDING_ROUTE } from "@/routes"
 import { Metadata } from "next"

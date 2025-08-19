@@ -1,9 +1,11 @@
+import { getActiveOrganization } from "@/data/auth/organization"
+import { getSubscription } from "@/data/subscription/subscription"
 import { betterAuth } from "better-auth"
 import { prismaAdapter } from "better-auth/adapters/prisma"
 import { nextCookies } from "better-auth/next-js"
 import { organization } from "better-auth/plugins"
 import { Resend } from "resend"
-import prisma from "./db"
+import prisma from "../db"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -42,6 +44,21 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     },
   },
+  databaseHooks: {
+    session: {
+      create: {
+        before: async (session) => {
+          const organization = await getActiveOrganization(session.userId)
+          return {
+            data: {
+              ...session,
+              activeOrganizationId: organization?.id || null,
+            },
+          }
+        },
+      },
+    },
+  },
   // callbacks: {
   //   async session({ session, user }) {
   //     const memberships = await prisma.membership.findMany({
@@ -69,5 +86,23 @@ export const auth = betterAuth({
   //     } as AuthUser
   //   },
   // },
-  plugins: [organization(), nextCookies()],
+  plugins: [
+    organization({
+      organizationCreation: {
+        afterCreate: async ({ organization, user }) => {
+          await resend.emails.send({
+            from: process.env.RESEND_EMAIL,
+            to: user.email,
+            subject: "Organization created",
+            html: `New organization created. Organization name: ${organization.name}. Organization slug: ${organization.slug}`,
+          })
+        },
+      },
+      allowUserToCreateOrganization: async (user) => {
+        const subscription = await getSubscription(user.id)
+        return subscription.plan === "pro"
+      },
+    }),
+    nextCookies(),
+  ],
 })

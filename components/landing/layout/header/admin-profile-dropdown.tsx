@@ -7,7 +7,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import UserAvatar from "@/components/user-avatar"
-import prisma from "@/lib/db"
 import { DASHBOARD_ROUTE } from "@/routes"
 import { User } from "better-auth/*"
 import Link from "next/link"
@@ -17,12 +16,12 @@ type AdminDropdownProps = {
 }
 
 const AdminProfileDropdown = async ({ user }: AdminDropdownProps) => {
-  const userMemberships = await prisma.member.findMany({
-    where: { userId: user.id },
-    select: {
-      organization: { select: { id: true, name: true } },
-    },
-  })
+  // const userMemberships = await prisma.member.findMany({
+  //   where: { userId: user.id },
+  //   select: {
+  //     organization: { select: { id: true, name: true } },
+  //   },
+  // })
 
   return (
     <DropdownMenu>
@@ -30,13 +29,16 @@ const AdminProfileDropdown = async ({ user }: AdminDropdownProps) => {
         <UserAvatar user={user} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {userMemberships.map((m) => (
+        {/* {userMemberships.map((m) => (
           <DropdownMenuItem key={m.organization.id}>
             <Link href={`${DASHBOARD_ROUTE}/${m.organization.id}`}>
               {m.organization.name} Dashboard
             </Link>
           </DropdownMenuItem>
-        ))}
+        ))} */}
+        <DropdownMenuItem>
+          <Link href={DASHBOARD_ROUTE}>Dashboard</Link>
+        </DropdownMenuItem>
 
         <SignOutButton>
           <DropdownMenuItem>

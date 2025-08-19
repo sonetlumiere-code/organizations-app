@@ -1,6 +1,6 @@
 import { buttonVariants } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
-import { auth } from "@/lib/auth"
+import { auth } from "@/lib/auth/auth"
 import { cn } from "@/lib/utils"
 import { SIGN_IN_ROUTE, SIGN_UP_ROUTE } from "@/routes"
 import { headers } from "next/headers"

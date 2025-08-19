@@ -11,7 +11,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { authClient } from "@/lib/auth-client"
+import { authClient } from "@/lib/auth/auth-client"
 import {
   organizationSchema,
   OrganizationSchema,
@@ -44,12 +44,18 @@ const OnboardingForm = () => {
     try {
       const { data, error } = await authClient.organization.create({
         ...values,
+        keepCurrentActiveOrganization: false,
       })
 
-      console.log({ data, error })
+      console.log(data, error)
 
-      toast.success("Organization created successfully")
-      router.replace(`${DASHBOARD_ROUTE}/${data.id}`)
+      if (error) {
+        toast.error(error.message)
+      } else {
+        toast.success("Organization created successfully")
+        // router.replace(`${DASHBOARD_ROUTE}/${data.id}`)
+        router.replace(DASHBOARD_ROUTE)
+      }
     } catch (error) {
       console.error(error)
       toast.error("Failed to create organization")

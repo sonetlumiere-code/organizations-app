@@ -1,4 +1,4 @@
-import { auth } from "@/lib/auth"
+import { auth } from "@/lib/auth/auth"
 import prisma from "@/lib/db"
 import { LANDING_ROUTE } from "@/routes"
 import { headers } from "next/headers"
