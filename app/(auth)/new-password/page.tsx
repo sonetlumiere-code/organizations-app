@@ -1,14 +1,13 @@
-/* eslint-disable @next/next/no-img-element */
-import ResetPasswordForm from "@/components/auth/reset-password-form"
+import NewPasswordForm from "@/components/auth/new-password-form"
 import { Icons } from "@/components/icons"
 import { buttonVariants } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 import { LANDING_ROUTE, SIGN_UP_ROUTE } from "@/routes"
+import Image from "next/image"
 import Link from "next/link"
+import { Suspense } from "react"
 
-const appName = process.env.APP_NAME
-
-const ResetPasswordPage = () => {
+const NewPasswordPage = () => {
   return (
     <div className="flex h-screen w-screen flex-col items-center justify-center">
       <Link
@@ -27,21 +26,26 @@ const ResetPasswordPage = () => {
         <div className="flex flex-col space-y-2 text-center">
           <Link href={LANDING_ROUTE} className="block">
             <span className="sr-only">HOME</span>
-            <img
+            <Image
               src="/img/better-auth.png"
-              alt={appName}
-              className="max-w-36 mx-auto py-4"
+              alt="Auth logo"
+              height={36}
+              width={120}
+              quality={100}
+              className="mx-auto py-4"
             />
           </Link>
           <h1 className="text-2xl font-semibold tracking-tight">
-            Forgot your password?
+            Change password
           </h1>
           <p className="text-sm text-muted-foreground">
-            Enter your email to change your password.
+            Enter your new password
           </p>
         </div>
 
-        <div className="px-4">{<ResetPasswordForm />}</div>
+        <Suspense>
+          <NewPasswordForm />
+        </Suspense>
 
         <p className="px-8 text-center text-sm text-muted-foreground">
           <Link
@@ -56,4 +60,4 @@ const ResetPasswordPage = () => {
   )
 }
 
-export default ResetPasswordPage
+export default NewPasswordPage

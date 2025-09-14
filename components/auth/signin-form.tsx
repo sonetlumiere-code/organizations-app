@@ -18,6 +18,7 @@ import {
 } from "@/lib/validations/sign-in-validation"
 import { DASHBOARD_ROUTE } from "@/routes"
 import { zodResolver } from "@hookform/resolvers/zod"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -123,6 +124,15 @@ export default function SignInForm() {
                     </div>
                   </FormControl>
                   <FormMessage />
+                  <Button
+                    size="sm"
+                    variant="link"
+                    asChild
+                    className="px-0 font-normal"
+                    disabled={isSubmitting}
+                  >
+                    <Link href="/reset-password">Forgot your password?</Link>
+                  </Button>
                 </FormItem>
               )}
             />

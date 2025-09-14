@@ -18,6 +18,7 @@ import {
 } from "@/lib/validations/sign-up-validation"
 import { CHECK_EMAIL_ROUTE, ONBOARDING_ROUTE } from "@/routes"
 import { zodResolver } from "@hookform/resolvers/zod"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
@@ -143,6 +144,15 @@ const SignUpForm = () => {
                     </div>
                   </FormControl>
                   <FormMessage />
+                  <Button
+                    size="sm"
+                    variant="link"
+                    asChild
+                    className="px-0 font-normal"
+                    disabled={isSubmitting}
+                  >
+                    <Link href="/reset-password">Forgot your password?</Link>
+                  </Button>
                 </FormItem>
               )}
             />

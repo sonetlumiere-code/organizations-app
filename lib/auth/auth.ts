@@ -1,11 +1,11 @@
 import { getActiveOrganization } from "@/data/auth/organization"
 import { getSubscription } from "@/data/subscription/subscription"
+import prisma from "@/lib/db"
 import { betterAuth } from "better-auth"
 import { prismaAdapter } from "better-auth/adapters/prisma"
 import { nextCookies } from "better-auth/next-js"
 import { organization } from "better-auth/plugins"
 import { Resend } from "resend"
-import prisma from "../db"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -59,33 +59,6 @@ export const auth = betterAuth({
       },
     },
   },
-  // callbacks: {
-  //   async session({ session, user }) {
-  //     const memberships = await prisma.membership.findMany({
-  //       where: { userId: user.id },
-  //       include: {
-  //         organization: { select: { id: true, name: true, slug: true } },
-  //         role: {
-  //           select: {
-  //             id: true,
-  //             name: true,
-  //             description: true,
-  //             permissions: true,
-  //           },
-  //         },
-  //       },
-  //     })
-
-  //     session.user = {
-  //       ...user,
-  //       memberships: memberships.map((m) => ({
-  //         organization: m.organization,
-  //         isAdmin: m.isAdmin,
-  //         role: m.role || undefined,
-  //       })),
-  //     } as AuthUser
-  //   },
-  // },
   plugins: [
     organization({
       organizationCreation: {
