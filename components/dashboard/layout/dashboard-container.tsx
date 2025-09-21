@@ -8,6 +8,9 @@ import {
 } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import { getCachedSession } from "@/lib/auth/cached-session"
+import { LANDING_ROUTE } from "@/routes"
+import { redirect } from "next/navigation"
 import React from "react"
 
 interface Crumb {
@@ -20,10 +23,16 @@ interface DashboardContainerProps {
   children: React.ReactNode
 }
 
-export function DashboardContainer({
+export async function DashboardContainer({
   breadcrumbs = [],
   children,
 }: DashboardContainerProps) {
+  const session = await getCachedSession()
+
+  if (!session) {
+    redirect(LANDING_ROUTE)
+  }
+
   return (
     <div>
       <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">

@@ -1,5 +1,6 @@
 import { DashboardContainer } from "@/components/dashboard/layout/dashboard-container"
-import OnboardingForm from "@/components/onboarding/onboarding-form"
+import CreateOrganizationForm from "@/components/organizations/create-organization-form"
+import { Card, CardContent } from "@/components/ui/card"
 
 const CreateOrganizationPage = () => {
   return (
@@ -11,8 +12,12 @@ const CreateOrganizationPage = () => {
     >
       <h1>Create Organization</h1>
 
-      <div className="w-1/2">
-        <OnboardingForm />
+      <div className="md:w-1/2">
+        <Card>
+          <CardContent>
+            <CreateOrganizationForm />
+          </CardContent>
+        </Card>
       </div>
     </DashboardContainer>
   )

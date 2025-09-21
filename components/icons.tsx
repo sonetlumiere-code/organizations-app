@@ -2,6 +2,7 @@ import {
   ChevronLeft,
   CircleAlert,
   CircleCheck,
+  Edit,
   Eye,
   EyeOff,
   LayoutDashboard,
@@ -16,6 +17,7 @@ export const Icons = {
   circleAlert: CircleAlert,
   circleCheck: CircleCheck,
   chevronLeft: ChevronLeft,
+  edit: Edit,
   eye: Eye,
   eyeOff: EyeOff,
   google: ({ ...props }: LucideProps) => (

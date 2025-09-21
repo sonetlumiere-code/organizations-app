@@ -7,7 +7,6 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
@@ -32,7 +31,6 @@ export function OrganizationSwitcher() {
   const { data: activeOrganization } = authClient.useActiveOrganization()
 
   const handleChangeOrganization = async (org: Organization) => {
-    console.log(org)
     const { error } = await authClient.organization.setActive({
       organizationId: org.id,
     })
@@ -53,6 +51,7 @@ export function OrganizationSwitcher() {
                 className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
               >
                 <OrganizationAvatar
+                  orgLogo={activeOrganization.logo}
                   orgName={activeOrganization.name}
                   orgSlug={activeOrganization.slug}
                 />
@@ -77,7 +76,7 @@ export function OrganizationSwitcher() {
                 Organizations
               </DropdownMenuLabel>
               {organizations &&
-                organizations.map((org, index) => (
+                organizations.map((org) => (
                   <DropdownMenuItem
                     key={org.id}
                     onClick={() => handleChangeOrganization(org)}
@@ -85,7 +84,6 @@ export function OrganizationSwitcher() {
                   >
                     <OrganizationAvatar orgName={org.name} orgSlug={org.slug} />
                     {org.name}
-                    <DropdownMenuShortcut>⌘{index + 1}</DropdownMenuShortcut>
                   </DropdownMenuItem>
                 ))}
               <DropdownMenuSeparator />

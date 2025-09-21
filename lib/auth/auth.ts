@@ -61,8 +61,8 @@ export const auth = betterAuth({
   },
   plugins: [
     organization({
-      organizationCreation: {
-        afterCreate: async ({ organization, user }) => {
+      organizationHooks: {
+        afterCreateOrganization: async ({ organization, user }) => {
           await resend.emails.send({
             from: process.env.RESEND_EMAIL,
             to: user.email,

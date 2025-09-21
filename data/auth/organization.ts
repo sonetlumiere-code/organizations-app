@@ -1,6 +1,7 @@
 import "server-only"
 
 import prisma from "@/lib/db"
+import { PopulatedOrganization } from "@/types/types"
 import { Prisma } from "@prisma/client"
 
 export const getOrganizations = async (
@@ -8,7 +9,7 @@ export const getOrganizations = async (
 ) => {
   try {
     const organizations = await prisma.organization.findMany(args)
-    return organizations
+    return organizations as PopulatedOrganization[]
   } catch (error) {
     console.error("Error fetching organizations:", error)
     return null
@@ -21,7 +22,7 @@ export const getOrganization = async (
   try {
     const organization = await prisma.organization.findFirst(args)
 
-    return organization
+    return organization as PopulatedOrganization | null
   } catch (error) {
     console.error("Error fetching organization:", error)
     return null

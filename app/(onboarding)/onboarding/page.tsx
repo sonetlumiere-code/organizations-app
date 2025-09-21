@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 
 import { Icons } from "@/components/icons"
-import OnboardingForm from "@/components/onboarding/onboarding-form"
+import CreateOrganizationForm from "@/components/organizations/create-organization-form"
 import { buttonVariants } from "@/components/ui/button"
 import { auth } from "@/lib/auth/auth"
 import { cn } from "@/lib/utils"
@@ -59,7 +59,7 @@ const OnBoardingPage = async () => {
           </p>
         </div>
         <div className="px-4">
-          <OnboardingForm />
+          <CreateOrganizationForm />
         </div>
       </div>
     </div>

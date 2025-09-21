@@ -18,20 +18,21 @@ import {
 } from "@/lib/validations/organization-validation"
 import { DASHBOARD_ROUTE } from "@/routes"
 import { zodResolver } from "@hookform/resolvers/zod"
+import { Organization } from "@prisma/client"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
-const OnboardingForm = () => {
+const EditOrganizationForm = ({
+  organization,
+}: {
+  organization: Organization
+}) => {
   const router = useRouter()
 
   const form = useForm({
     resolver: zodResolver(organizationSchema),
-    defaultValues: {
-      name: "",
-      slug: "",
-      logo: "",
-    },
+    defaultValues: organization,
   })
 
   const {
@@ -42,9 +43,11 @@ const OnboardingForm = () => {
 
   const onSubmit = async (values: OrganizationSchema) => {
     try {
-      const { data, error } = await authClient.organization.create({
-        ...values,
-        keepCurrentActiveOrganization: false,
+      const { data, error } = await authClient.organization.update({
+        organizationId: organization.id,
+        data: {
+          ...values,
+        },
       })
 
       console.log(data, error)
@@ -52,12 +55,12 @@ const OnboardingForm = () => {
       if (error) {
         toast.error(error.message)
       } else {
-        toast.success("Organization created successfully")
+        toast.success("Organization edited successfully")
         router.replace(DASHBOARD_ROUTE)
       }
     } catch (error) {
       console.error(error)
-      toast.error("Failed to create organization")
+      toast.error("Failed to edit organization")
     }
   }
 
@@ -105,7 +108,7 @@ const OnboardingForm = () => {
           {isSubmitting ? (
             <Icons.spinner className="w-4 h-4 animate-spin" />
           ) : (
-            <>Create organization</>
+            <>Edit organization</>
           )}
         </Button>
       </form>
@@ -113,4 +116,4 @@ const OnboardingForm = () => {
   )
 }
 
-export default OnboardingForm
+export default EditOrganizationForm
