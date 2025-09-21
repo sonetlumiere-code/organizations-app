@@ -20,13 +20,13 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { authClient } from "@/lib/auth/auth-client"
 import { Organization } from "better-auth/plugins"
 import { ChevronsUpDown, Plus } from "lucide-react"
+import Link from "next/link"
 import { toast } from "sonner"
 
 export function OrganizationSwitcher() {
   const { isMobile } = useSidebar()
 
   const { data: organizations } = authClient.useListOrganizations()
-
   console.log(organizations)
 
   const { data: activeOrganization } = authClient.useActiveOrganization()
@@ -89,14 +89,16 @@ export function OrganizationSwitcher() {
                   </DropdownMenuItem>
                 ))}
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="gap-2 p-2">
-                <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
-                  <Plus className="size-4" />
-                </div>
-                <div className="text-muted-foreground font-medium">
-                  Add Organization
-                </div>
-              </DropdownMenuItem>
+              <Link href="/organizations/create">
+                <DropdownMenuItem className="gap-2 p-2">
+                  <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
+                    <Plus className="size-4" />
+                  </div>
+                  <div className="text-muted-foreground font-medium">
+                    Add Organization
+                  </div>
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuContent>
           </DropdownMenu>
         ) : (

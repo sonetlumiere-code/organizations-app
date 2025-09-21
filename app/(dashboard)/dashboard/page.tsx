@@ -1,3 +1,4 @@
+import { DashboardContainer } from "@/components/dashboard/layout/dashboard-container"
 import { auth } from "@/lib/auth/auth"
 import { headers } from "next/headers"
 
@@ -10,13 +11,13 @@ export default async function DashboardPage() {
     return <div>You must be signed in to view this page.</div>
   }
 
-  // const data = await auth.api.listOrganizations()
-
   return (
-    <div className="">
+    <DashboardContainer
+      breadcrumbs={[{ label: "Dashboard", href: "/dashboard" }]}
+    >
       <h1>Dashboard</h1>
-      {/* <pre>{JSON.stringify(data, null, 4)}</pre> */}
+
       <pre>{JSON.stringify(session, null, 4)}</pre>
-    </div>
+    </DashboardContainer>
   )
 }

@@ -53,7 +53,6 @@ const OnboardingForm = () => {
         toast.error(error.message)
       } else {
         toast.success("Organization created successfully")
-        // router.replace(`${DASHBOARD_ROUTE}/${data.id}`)
         router.replace(DASHBOARD_ROUTE)
       }
     } catch (error) {
