@@ -10,6 +10,9 @@ import {
   LogOut,
   LucideProps,
   Menu,
+  MoreHorizontal,
+  MoveLeftIcon,
+  Trash2,
   User,
 } from "lucide-react"
 
@@ -54,7 +57,10 @@ export const Icons = {
   layoutDashboard: LayoutDashboard,
   logOut: LogOut,
   menu: Menu,
+  moreHorizontal: MoreHorizontal,
+  moveLeftIcon: MoveLeftIcon,
   spinner: Loader2,
+  trash2: Trash2,
   user: User,
 }
 

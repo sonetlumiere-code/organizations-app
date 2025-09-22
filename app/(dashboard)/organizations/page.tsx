@@ -1,7 +1,15 @@
 import { DashboardContainer } from "@/components/dashboard/layout/dashboard-container"
 import { Icons } from "@/components/icons"
 import OrganizationAvatar from "@/components/organization-avatar"
+import DeleteOrganization from "@/components/organizations/delete-organization"
 import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import {
   Table,
   TableBody,
@@ -11,9 +19,11 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { getOrganizations } from "@/data/auth/organization"
+import { auth } from "@/lib/auth/auth"
 import { getCachedSession } from "@/lib/auth/cached-session"
 import { LANDING_ROUTE } from "@/routes"
 import { format } from "date-fns"
+import { headers } from "next/headers"
 import Link from "next/link"
 import { redirect } from "next/navigation"
 
@@ -26,7 +36,7 @@ const OrganizationsPage = async () => {
 
   const userId = session.user.id
 
-  const organizations = await getOrganizations({
+  const userOrganizations = await getOrganizations({
     where: {
       members: { some: { userId } },
     },
@@ -38,7 +48,25 @@ const OrganizationsPage = async () => {
     },
   })
 
-  console.log(organizations)
+  console.log(userOrganizations)
+
+  const canEdit = await auth.api.hasPermission({
+    headers: await headers(),
+    body: {
+      permissions: {
+        organization: ["update"],
+      },
+    },
+  })
+
+  const canDelete = await auth.api.hasPermission({
+    headers: await headers(),
+    body: {
+      permissions: {
+        organization: ["delete"],
+      },
+    },
+  })
 
   return (
     <DashboardContainer
@@ -56,7 +84,7 @@ const OrganizationsPage = async () => {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {organizations.length === 0 ? (
+          {userOrganizations.length === 0 ? (
             <TableRow>
               <TableCell colSpan={4}>
                 <div className="py-6 text-center text-sm text-muted-foreground">
@@ -65,7 +93,7 @@ const OrganizationsPage = async () => {
               </TableCell>
             </TableRow>
           ) : (
-            organizations.map((org) => (
+            userOrganizations.map((org) => (
               <TableRow key={org.id}>
                 <TableCell>
                   <div className="flex items-center gap-3">
@@ -93,21 +121,31 @@ const OrganizationsPage = async () => {
                 </TableCell>
 
                 <TableCell className="text-right">
-                  <div className="flex items-center justify-end gap-2">
-                    {org.members?.[0]?.role === "owner" && (
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        className="flex items-center gap-2 cursor-pointer"
-                        asChild
-                      >
-                        <Link href={`/organizations/edit/${org.id}`}>
-                          <Icons.edit className="h-4 w-4" />
-                          Edit
-                        </Link>
+                  <DropdownMenu modal={false}>
+                    <DropdownMenuTrigger asChild>
+                      <Button aria-haspopup="true" size="icon" variant="ghost">
+                        <Icons.moreHorizontal className="h-4 w-4" />
+                        <span className="sr-only">Show menu</span>
                       </Button>
-                    )}
-                  </div>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                      {canEdit.success && (
+                        <Link href={`/organizations/edit/${org.id}`}>
+                          <DropdownMenuItem>
+                            <Icons.edit className="h-4 w-4" />
+                            Edit
+                          </DropdownMenuItem>
+                        </Link>
+                      )}
+
+                      {canDelete.success && (
+                        <DropdownMenuItem>
+                          <DeleteOrganization organization={org} />
+                        </DropdownMenuItem>
+                      )}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </TableCell>
               </TableRow>
             ))
