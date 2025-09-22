@@ -45,9 +45,7 @@ const EditOrganizationForm = ({
     try {
       const { data, error } = await authClient.organization.update({
         organizationId: organization.id,
-        data: {
-          ...values,
-        },
+        data: values,
       })
 
       console.log(data, error)

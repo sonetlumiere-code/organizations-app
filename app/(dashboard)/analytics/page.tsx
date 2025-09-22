@@ -1,3 +1,4 @@
+import ActiveOrganization from "@/components/dashboard/analytics/active-organization"
 import { DashboardContainer } from "@/components/dashboard/layout/dashboard-container"
 import { auth } from "@/lib/auth/auth"
 import { headers } from "next/headers"
@@ -17,7 +18,7 @@ export default async function DashboardPage() {
     >
       <h1>Dashboard</h1>
 
-      <pre>{JSON.stringify(session, null, 4)}</pre>
+      <ActiveOrganization />
     </DashboardContainer>
   )
 }

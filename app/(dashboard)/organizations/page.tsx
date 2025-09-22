@@ -79,7 +79,7 @@ const OrganizationsPage = async () => {
           <TableRow>
             <TableHead>Organization</TableHead>
             <TableHead>Slug</TableHead>
-            <TableHead className="hidden md:block">Created</TableHead>
+            <TableHead className="hidden md:md:table-cell">Created</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -116,7 +116,7 @@ const OrganizationsPage = async () => {
 
                 <TableCell>{org.slug ?? "—"}</TableCell>
 
-                <TableCell className="hidden md:block">
+                <TableCell className="hidden md:table-cell">
                   {format(org.createdAt, "dd/MM/yyyy")}
                 </TableCell>
 

@@ -1,5 +1,5 @@
 const LANDING_ROUTE: string = "/"
-const DASHBOARD_ROUTE: string = "/dashboard"
+const DASHBOARD_ROUTE: string = "/analytics"
 const CHECK_EMAIL_ROUTE: string = "/check-email"
 const VERIFY_EMAIL_ROUTE: string = "/verify-email"
 const ONBOARDING_ROUTE: string = "/onboarding"
