@@ -1,11 +1,13 @@
+import { cn } from "@/lib/utils"
 import { User } from "better-auth/*"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 type UserAvatarProps = {
   user?: User
+  size?: "sm" | "md" | "lg"
 }
 
-const UserAvatar: React.FC<UserAvatarProps> = ({ user }) => {
+const UserAvatar: React.FC<UserAvatarProps> = ({ user, size = "md" }) => {
   const url = user?.image
     ? user.image
     : `https://api.dicebear.com/7.x/initials/svg?${new URLSearchParams({
@@ -17,7 +19,13 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ user }) => {
   const initials = user?.name?.slice(0, 1).toUpperCase() || ""
 
   return (
-    <Avatar className="w-10 h-10">
+    <Avatar
+      className={cn(
+        size === "sm" && "h-8 w-8",
+        size === "md" && "h-10 w-10",
+        size === "lg" && "h-12 w-12"
+      )}
+    >
       <AvatarImage src={url} alt="User Avatar" />
       <AvatarFallback className="uppercase">{initials}</AvatarFallback>
     </Avatar>

@@ -4,6 +4,7 @@ import { useConfirmation } from "@/components/confirmation-provider"
 import { Icons } from "@/components/icons"
 import { authClient } from "@/lib/auth/auth-client"
 import { PopulatedOrganization } from "@/types/types"
+import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
 type DeleteOrganizationProps = {
@@ -11,6 +12,7 @@ type DeleteOrganizationProps = {
 }
 
 const DeleteOrganization = ({ organization }: DeleteOrganizationProps) => {
+  const router = useRouter()
   const confirm = useConfirmation()
 
   const onDelete = async () => {
@@ -29,6 +31,7 @@ const DeleteOrganization = ({ organization }: DeleteOrganizationProps) => {
 
       if (data) {
         toast.success(`Organization ${data.name} deleted successfully.`)
+        router.refresh()
       }
     })
   }

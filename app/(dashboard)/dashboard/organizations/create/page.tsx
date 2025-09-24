@@ -1,12 +1,15 @@
 import { DashboardContainer } from "@/components/dashboard/layout/dashboard-container"
 import CreateOrganizationForm from "@/components/organizations/create-organization-form"
 import { Card, CardContent } from "@/components/ui/card"
+import { verifyUser } from "@/lib/auth/verify-user"
 
-const CreateOrganizationPage = () => {
+const CreateOrganizationPage = async () => {
+  await verifyUser()
+
   return (
     <DashboardContainer
       breadcrumbs={[
-        { label: "Organizations", href: "/organizations" },
+        { label: "Organizations", href: "/dashboard/organizations" },
         { label: "Create organization" },
       ]}
     >

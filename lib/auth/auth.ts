@@ -1,5 +1,6 @@
 import { getActiveOrganization } from "@/data/auth/organization"
 import { getSubscription } from "@/data/subscription/subscription"
+import { ac, admin, member, owner } from "@/lib/auth/permissions"
 import prisma from "@/lib/db"
 import { betterAuth } from "better-auth"
 import { prismaAdapter } from "better-auth/adapters/prisma"
@@ -57,10 +58,16 @@ export const auth = betterAuth({
           }
         },
       },
+      cookieCache: {
+        enabled: true,
+        maxAge: 5 * 60,
+      },
     },
   },
   plugins: [
     organization({
+      ac,
+      roles: { owner, admin, member },
       organizationHooks: {
         afterCreateOrganization: async ({ organization, user }) => {
           await resend.emails.send({

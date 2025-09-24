@@ -2,6 +2,7 @@ import { DashboardContainer } from "@/components/dashboard/layout/dashboard-cont
 import EditOrganizationForm from "@/components/organizations/edit-organization-form"
 import { Card, CardContent } from "@/components/ui/card"
 import { getOrganization } from "@/data/auth/organization"
+import { verifyUser } from "@/lib/auth/verify-user"
 import { DASHBOARD_ROUTE } from "@/routes"
 import { redirect } from "next/navigation"
 
@@ -10,6 +11,8 @@ const EditOrganizationPage = async ({
 }: {
   params: Promise<{ orgId: string }>
 }) => {
+  await verifyUser()
+
   const { orgId } = await params
   const organization = await getOrganization({ where: { id: orgId } })
 
@@ -20,7 +23,7 @@ const EditOrganizationPage = async ({
   return (
     <DashboardContainer
       breadcrumbs={[
-        { label: "Organizations", href: "/organizations" },
+        { label: "Organizations", href: "/dashboard/organizations" },
         { label: "Edit organization" },
       ]}
     >

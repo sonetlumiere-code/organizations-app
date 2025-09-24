@@ -8,10 +8,7 @@ import {
 } from "@/components/ui/breadcrumb"
 import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
-import { getCachedSession } from "@/lib/auth/cached-session"
-import { LANDING_ROUTE } from "@/routes"
-import { redirect } from "next/navigation"
-import React from "react"
+import { Fragment, ReactNode } from "react"
 
 interface Crumb {
   label: string
@@ -20,19 +17,13 @@ interface Crumb {
 
 interface DashboardContainerProps {
   breadcrumbs?: Crumb[]
-  children: React.ReactNode
+  children: ReactNode
 }
 
-export async function DashboardContainer({
+export function DashboardContainer({
   breadcrumbs = [],
   children,
 }: DashboardContainerProps) {
-  const session = await getCachedSession()
-
-  if (!session) {
-    redirect(LANDING_ROUTE)
-  }
-
   return (
     <div>
       <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
@@ -47,7 +38,7 @@ export async function DashboardContainer({
             <Breadcrumb>
               <BreadcrumbList>
                 {breadcrumbs.map((crumb, idx) => (
-                  <React.Fragment key={idx}>
+                  <Fragment key={idx}>
                     <BreadcrumbItem>
                       {crumb.href ? (
                         <BreadcrumbLink href={crumb.href}>
@@ -59,7 +50,7 @@ export async function DashboardContainer({
                     </BreadcrumbItem>
 
                     {idx < breadcrumbs.length - 1 && <BreadcrumbSeparator />}
-                  </React.Fragment>
+                  </Fragment>
                 ))}
               </BreadcrumbList>
             </Breadcrumb>

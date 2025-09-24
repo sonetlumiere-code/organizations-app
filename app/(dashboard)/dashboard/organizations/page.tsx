@@ -20,20 +20,13 @@ import {
 } from "@/components/ui/table"
 import { getOrganizations } from "@/data/auth/organization"
 import { auth } from "@/lib/auth/auth"
-import { getCachedSession } from "@/lib/auth/cached-session"
-import { LANDING_ROUTE } from "@/routes"
+import { verifyUser } from "@/lib/auth/verify-user"
 import { format } from "date-fns"
 import { headers } from "next/headers"
 import Link from "next/link"
-import { redirect } from "next/navigation"
 
 const OrganizationsPage = async () => {
-  const session = await getCachedSession()
-
-  if (!session) {
-    return redirect(LANDING_ROUTE)
-  }
-
+  const session = await verifyUser()
   const userId = session.user.id
 
   const userOrganizations = await getOrganizations({
@@ -69,9 +62,7 @@ const OrganizationsPage = async () => {
   })
 
   return (
-    <DashboardContainer
-      breadcrumbs={[{ label: "Organizations", href: "/organizations" }]}
-    >
+    <DashboardContainer breadcrumbs={[{ label: "Organizations" }]}>
       <h1>Organizations</h1>
 
       <Table>
@@ -130,8 +121,16 @@ const OrganizationsPage = async () => {
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+                      <Link href={`/dashboard/organizations/${org.id}`}>
+                        <DropdownMenuItem>
+                          <Icons.eye className="h-4 w-4" />
+                          View
+                        </DropdownMenuItem>
+                      </Link>
+
                       {canEdit.success && (
-                        <Link href={`/organizations/edit/${org.id}`}>
+                        <Link href={`/dashboard/organizations/edit/${org.id}`}>
                           <DropdownMenuItem>
                             <Icons.edit className="h-4 w-4" />
                             Edit

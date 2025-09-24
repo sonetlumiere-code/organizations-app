@@ -1,5 +1,10 @@
-import { Member, Organization } from "@prisma/client"
+import { Member, Organization, User } from "@prisma/client"
 
 export type PopulatedOrganization = Organization & {
-  members?: Member[]
+  members?: PopulatedMember[]
+}
+
+export type PopulatedMember = Member & {
+  user?: User
+  organization?: Organization
 }

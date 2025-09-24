@@ -8,13 +8,15 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar"
 import {
-  BookOpen,
-  Bot,
+  CircleUserRound,
   Frame,
+  Group,
+  Mail,
   Map,
+  Network,
   PieChart,
   Settings2,
-  SquareTerminal,
+  Shield,
 } from "lucide-react"
 import { DashboardNavMain } from "./nav-main"
 import { DashboardNavProjects } from "./nav-projects"
@@ -25,70 +27,113 @@ import { OrganizationSwitcher } from "./organization-switcher"
 const data = {
   navMain: [
     {
-      title: "Playground",
+      title: "Organizations",
       url: "#",
-      icon: SquareTerminal,
+      icon: Network,
       isActive: true,
       items: [
         {
-          title: "History",
-          url: "#",
+          title: "List Organizations",
+          url: "/dashboard/organizations",
         },
         {
-          title: "Starred",
-          url: "#",
+          title: "Active Organization",
+          url: "/dashboard/organizations/active",
         },
         {
-          title: "Settings",
-          url: "#",
+          title: "Create Organization",
+          url: "/dashboard/organizations/create",
         },
       ],
     },
     {
-      title: "Models",
+      title: "Invitations",
       url: "#",
-      icon: Bot,
+      icon: Mail,
       items: [
         {
-          title: "Genesis",
-          url: "#",
+          title: "List Invitations",
+          url: "/dashboard/invitations",
         },
         {
-          title: "Explorer",
-          url: "#",
+          title: "Send Invitation",
+          url: "/dashboard/invitations/send",
         },
         {
-          title: "Quantum",
-          url: "#",
+          title: "List user invitations",
+          url: "/dashboard/invitations/user",
         },
       ],
     },
     {
-      title: "Documentation",
+      title: "Members",
       url: "#",
-      icon: BookOpen,
+      icon: CircleUserRound,
       items: [
         {
-          title: "Introduction",
-          url: "#",
+          title: "List Members",
+          url: "/dashboard/members",
         },
         {
-          title: "Get Started",
-          url: "#",
+          title: "Add Member",
+          url: "/dashboard/members/add",
         },
         {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
+          title: "Leave Organization",
+          url: "/dashboard/members/leave",
         },
       ],
     },
+    {
+      title: "Dynamic Access Control",
+      url: "#",
+      icon: Shield,
+      items: [
+        {
+          title: "List Roles",
+          url: "/dashboard/roles",
+        },
+        {
+          title: "Permissions",
+          url: "/dashboard/permissions",
+        },
+        {
+          title: "Create Role",
+          url: "/dashboard/roles/create",
+        },
+      ],
+    },
+    {
+      title: "Teams",
+      url: "#",
+      icon: Group,
+      items: [
+        {
+          title: "List Teams",
+          url: "/dashboard/teams",
+        },
+        {
+          title: "Active Team",
+          url: "/dashboard/teams/active",
+        },
+        {
+          title: "Create Team",
+          url: "/dashboard/teams/create",
+        },
+        {
+          title: "Team Members",
+          url: "/dashboard/teams/members",
+        },
+        {
+          title: "Team Permissions",
+          url: "/dashboard/teams/permissions",
+        },
+      ],
+    },
+
     {
       title: "Settings",
-      url: "#",
+      url: "",
       icon: Settings2,
       items: [
         {
@@ -96,7 +141,7 @@ const data = {
           url: "#",
         },
         {
-          title: "Team",
+          title: "Teams",
           url: "#",
         },
         {

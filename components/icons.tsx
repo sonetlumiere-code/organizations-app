@@ -12,6 +12,8 @@ import {
   Menu,
   MoreHorizontal,
   MoveLeftIcon,
+  Network,
+  Rocket,
   Trash2,
   User,
 } from "lucide-react"
@@ -59,6 +61,8 @@ export const Icons = {
   menu: Menu,
   moreHorizontal: MoreHorizontal,
   moveLeftIcon: MoveLeftIcon,
+  network: Network,
+  rocket: Rocket,
   spinner: Loader2,
   trash2: Trash2,
   user: User,

@@ -1,7 +1,10 @@
 import { DashboardSidebar } from "@/components/dashboard/layout/sidebar"
 import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar"
+import { verifyUser } from "@/lib/auth/verify-user"
 
-const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
+const DashboardLayout = async ({ children }: { children: React.ReactNode }) => {
+  await verifyUser()
+
   return (
     <SidebarProvider>
       <DashboardSidebar />

@@ -87,7 +87,7 @@ export function OrganizationSwitcher() {
                   </DropdownMenuItem>
                 ))}
               <DropdownMenuSeparator />
-              <Link href="/organizations/create">
+              <Link href="/dashboard/organizations/create">
                 <DropdownMenuItem className="gap-2 p-2">
                   <div className="flex size-6 items-center justify-center rounded-md border bg-transparent">
                     <Plus className="size-4" />
