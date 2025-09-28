@@ -2,7 +2,7 @@
 
 import { authClient } from "@/lib/auth/auth-client"
 import { useRouter } from "next/navigation"
-import { ReactElement, cloneElement } from "react"
+import { ReactElement } from "react"
 
 interface SignOutButtonProps {
   children: ReactElement<{ onClick?: () => void }>
@@ -21,9 +21,7 @@ const SignOutButton = ({ children }: SignOutButtonProps) => {
     })
   }
 
-  return cloneElement(children, {
-    onClick: signOut,
-  })
+  return <span onClick={signOut}>{children}</span>
 }
 
 export default SignOutButton

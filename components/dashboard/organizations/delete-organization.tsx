@@ -4,7 +4,7 @@ import { useConfirmation } from "@/components/confirmation-provider"
 import { authClient } from "@/lib/auth/auth-client"
 import { PopulatedOrganization } from "@/types/types"
 import { useRouter } from "next/navigation"
-import { cloneElement, ReactElement } from "react"
+import { ReactElement } from "react"
 import { toast } from "sonner"
 
 type DeleteOrganizationProps = {
@@ -40,9 +40,7 @@ const DeleteOrganization = ({
     })
   }
 
-  return cloneElement(children, {
-    onClick: onDelete,
-  })
+  return <span onClick={onDelete}>{children}</span>
 }
 
 export default DeleteOrganization

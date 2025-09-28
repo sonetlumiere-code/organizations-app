@@ -6,7 +6,7 @@ import { authClient } from "@/lib/auth/auth-client"
 import { Role } from "@/types/types"
 import { User } from "@prisma/client"
 import { useRouter } from "next/navigation"
-import { ReactElement, cloneElement } from "react"
+import { ReactElement } from "react"
 import { toast } from "sonner"
 
 type AddMemberProps = {
@@ -42,7 +42,5 @@ export const AddMember = ({ user, children }: AddMemberProps) => {
     })
   }
 
-  return cloneElement(children, {
-    onClick: onAdd,
-  })
+  return <span onClick={onAdd}>{children}</span>
 }
