@@ -12,29 +12,6 @@ export const getInvitations = async (args?: Prisma.InvitationFindManyArgs) => {
     return null
   }
 }
-export const getUsersAvailableToInvite = async (orgId: string) => {
-  try {
-    const invitedUsers = await prisma.invitation.findMany({
-      where: { organizationId: orgId },
-      select: { email: true },
-    })
-    const members = await prisma.member.findMany({
-      where: { organizationId: orgId },
-      select: { user: { select: { email: true } } },
-    })
-    const excludedEmails = [
-      ...invitedUsers.map((inv) => inv.email),
-      ...members.map((mem) => mem.user.email),
-    ]
-    const users = await prisma.user.findMany({
-      where: { email: { notIn: excludedEmails } },
-    })
-    return users
-  } catch (error) {
-    console.error("Error fetching users available to invite:", error)
-    return null
-  }
-}
 
 export const createInvitation = async (data: Prisma.InvitationCreateInput) => {
   try {

@@ -1,4 +1,6 @@
 import { DashboardContainer } from "@/components/dashboard/layout/dashboard-container"
+import { AddMember } from "@/components/dashboard/members/add-member"
+import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import {
   Table,
@@ -13,7 +15,7 @@ import { getUsersAvailableToAdd } from "@/data/user/user"
 import { verifyUser } from "@/lib/auth/verify-user"
 import { format } from "date-fns"
 
-const SendInvitationPage = async () => {
+const AddMemberPage = async () => {
   const session = await verifyUser()
 
   const users = await getUsersAvailableToAdd(
@@ -23,8 +25,8 @@ const SendInvitationPage = async () => {
   return (
     <DashboardContainer
       breadcrumbs={[
-        { label: "Invitations", href: "/dashboard/invitations" },
-        { label: "Send Invitation" },
+        { label: "Members", href: "/dashboard/members/add" },
+        { label: "Add member" },
       ]}
     >
       <Table>
@@ -71,7 +73,12 @@ const SendInvitationPage = async () => {
                 </TableCell>
 
                 <TableCell className="text-right">
-                  <Button>Invite</Button>
+                  <AddMember user={user}>
+                    <Button className="cursor-pointer">
+                      <Icons.plus className="w-4 h-4" />
+                      <p>Add</p>
+                    </Button>
+                  </AddMember>
                 </TableCell>
               </TableRow>
             ))
@@ -82,4 +89,4 @@ const SendInvitationPage = async () => {
   )
 }
 
-export default SendInvitationPage
+export default AddMemberPage

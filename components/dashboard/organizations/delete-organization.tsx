@@ -1,17 +1,21 @@
 "use client"
 
 import { useConfirmation } from "@/components/confirmation-provider"
-import { Icons } from "@/components/icons"
 import { authClient } from "@/lib/auth/auth-client"
 import { PopulatedOrganization } from "@/types/types"
 import { useRouter } from "next/navigation"
+import { cloneElement, ReactElement } from "react"
 import { toast } from "sonner"
 
 type DeleteOrganizationProps = {
   organization: PopulatedOrganization
+  children: ReactElement<{ onClick?: () => void }>
 }
 
-const DeleteOrganization = ({ organization }: DeleteOrganizationProps) => {
+const DeleteOrganization = ({
+  organization,
+  children,
+}: DeleteOrganizationProps) => {
   const router = useRouter()
   const confirm = useConfirmation()
 
@@ -36,12 +40,9 @@ const DeleteOrganization = ({ organization }: DeleteOrganizationProps) => {
     })
   }
 
-  return (
-    <span onClick={onDelete} className="flex">
-      <Icons.trash2 className="w-4 h-4 text-destructive" />
-      <p className="ml-2 text-destructive">Delete</p>
-    </span>
-  )
+  return cloneElement(children, {
+    onClick: onDelete,
+  })
 }
 
 export default DeleteOrganization

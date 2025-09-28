@@ -1,7 +1,7 @@
 import { DashboardContainer } from "@/components/dashboard/layout/dashboard-container"
+import DeleteOrganization from "@/components/dashboard/organizations/delete-organization"
 import { Icons } from "@/components/icons"
 import OrganizationAvatar from "@/components/organization-avatar"
-import DeleteOrganization from "@/components/organizations/delete-organization"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -139,9 +139,12 @@ const OrganizationsPage = async () => {
                       )}
 
                       {canDelete.success && (
-                        <DropdownMenuItem>
-                          <DeleteOrganization organization={org} />
-                        </DropdownMenuItem>
+                        <DeleteOrganization organization={org}>
+                          <DropdownMenuItem>
+                            <Icons.trash2 className="w-4 h-4 text-destructive" />
+                            <p className="text-destructive">Delete</p>
+                          </DropdownMenuItem>
+                        </DeleteOrganization>
                       )}
                     </DropdownMenuContent>
                   </DropdownMenu>

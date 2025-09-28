@@ -8,3 +8,5 @@ export type PopulatedMember = Member & {
   user?: User
   organization?: Organization
 }
+
+export type Role = "owner" | "admin" | "member"

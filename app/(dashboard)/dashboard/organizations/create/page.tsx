@@ -1,5 +1,5 @@
 import { DashboardContainer } from "@/components/dashboard/layout/dashboard-container"
-import CreateOrganizationForm from "@/components/organizations/create-organization-form"
+import CreateOrganizationForm from "@/components/dashboard/organizations/create-organization-form"
 import { Card, CardContent } from "@/components/ui/card"
 import { verifyUser } from "@/lib/auth/verify-user"
 
