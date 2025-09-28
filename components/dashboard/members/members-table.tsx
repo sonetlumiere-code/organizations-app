@@ -1,3 +1,12 @@
+import { Icons } from "@/components/icons"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import {
   Table,
   TableBody,
@@ -7,11 +16,24 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import UserAvatar from "@/components/user-avatar"
+import { auth } from "@/lib/auth/auth"
 import { PopulatedMember } from "@/types/types"
 import { User } from "@prisma/client"
 import { format } from "date-fns"
+import { headers } from "next/headers"
+import Link from "next/link"
+import RemoveMember from "./remove-member"
 
-const MembersTable = ({ members }: { members: PopulatedMember[] }) => {
+const MembersTable = async ({ members }: { members: PopulatedMember[] }) => {
+  const canDelete = await auth.api.hasPermission({
+    headers: await headers(),
+    body: {
+      permissions: {
+        member: ["delete"],
+      },
+    },
+  })
+
   return (
     <Table>
       <TableHeader>
@@ -38,7 +60,35 @@ const MembersTable = ({ members }: { members: PopulatedMember[] }) => {
                 ? format(new Date(member.createdAt), "dd/MM/yyyy")
                 : "-"}
             </TableCell>
-            <TableCell className="text-right"> Edit | Delete</TableCell>
+            <TableCell className="text-right">
+              <DropdownMenu modal={false}>
+                <DropdownMenuTrigger asChild>
+                  <Button aria-haspopup="true" size="icon" variant="ghost">
+                    <Icons.moreHorizontal className="h-4 w-4" />
+                    <span className="sr-only">Show menu</span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+                  <Link href={`/dashboard/members/${member.id}`}>
+                    <DropdownMenuItem>
+                      <Icons.eye className="h-4 w-4" />
+                      View
+                    </DropdownMenuItem>
+                  </Link>
+
+                  {canDelete.success && (
+                    <RemoveMember member={member}>
+                      <DropdownMenuItem>
+                        <Icons.trash2 className="w-4 h-4 text-destructive" />
+                        <p className="text-destructive">Remove</p>
+                      </DropdownMenuItem>
+                    </RemoveMember>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </TableCell>
           </TableRow>
         ))}
       </TableBody>

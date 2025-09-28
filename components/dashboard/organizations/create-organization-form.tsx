@@ -16,7 +16,6 @@ import {
   organizationSchema,
   OrganizationSchema,
 } from "@/lib/validations/organization-validation"
-import { DASHBOARD_ROUTE } from "@/routes"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
 import { useForm } from "react-hook-form"
@@ -51,9 +50,15 @@ const CreateOrganizationForm = () => {
 
       if (error) {
         toast.error(error.message)
-      } else {
+      }
+
+      if (data) {
+        await authClient.organization.setActive({
+          organizationId: data.id,
+        })
+
         toast.success("Organization created successfully")
-        router.replace(DASHBOARD_ROUTE)
+        router.replace("/dashboard/organizations")
       }
     } catch (error) {
       console.error(error)

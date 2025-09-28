@@ -37,7 +37,7 @@ export const AddMember = ({ user, children }: AddMemberProps) => {
 
       if (data) {
         toast.success("User added successfully.")
-        router.refresh()
+        router.push("/dashboard/members")
       }
     })
   }

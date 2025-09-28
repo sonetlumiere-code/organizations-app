@@ -26,9 +26,9 @@ export function OrganizationSwitcher() {
   const { isMobile } = useSidebar()
 
   const { data: organizations } = authClient.useListOrganizations()
-  console.log(organizations)
 
   const { data: activeOrganization } = authClient.useActiveOrganization()
+  console.log(activeOrganization)
 
   const handleChangeOrganization = async (org: Organization) => {
     const { error } = await authClient.organization.setActive({

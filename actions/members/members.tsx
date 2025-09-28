@@ -1,7 +1,7 @@
 "use server"
 
 import { auth } from "@/lib/auth/auth"
-import { Role } from "@/types/types"
+import { ActionResponse, Role } from "@/types/types"
 
 export const addMember = async ({
   userId,
@@ -13,30 +13,23 @@ export const addMember = async ({
   organizationId?: string
   roles: Role[]
   teamId?: string
-}) => {
-  const data = await auth.api.addMember({
-    body: {
-      userId,
-      role: roles,
-      organizationId,
-      teamId,
-    },
-  })
-  return data
-}
+}): Promise<ActionResponse> => {
+  try {
+    const data = await auth.api.addMember({
+      body: {
+        userId,
+        role: roles,
+        organizationId,
+        teamId,
+      },
+    })
 
-export const removeMember = async ({
-  memberIdOrEmail,
-  organizationId,
-}: {
-  memberIdOrEmail: string
-  organizationId: string
-}) => {
-  const data = await auth.api.removeMember({
-    body: {
-      memberIdOrEmail,
-      organizationId,
-    },
-  })
-  return data
+    return { success: true, data }
+  } catch (err) {
+    console.error("addMember failed", err)
+    return {
+      success: false,
+      error: err instanceof Error ? err.message : "Unexpected error",
+    }
+  }
 }

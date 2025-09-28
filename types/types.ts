@@ -1,5 +1,11 @@
 import { Member, Organization, User } from "@prisma/client"
 
+export type ActionResponse<T = unknown> = {
+  success: boolean
+  data?: T
+  error?: string
+}
+
 export type PopulatedOrganization = Organization & {
   members?: PopulatedMember[]
 }
