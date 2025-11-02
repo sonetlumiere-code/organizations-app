@@ -1,6 +1,6 @@
 "use client"
 
-import { addMember } from "@/actions/members/members"
+import { addMember } from "@/actions/auth/members/members"
 import { useConfirmation } from "@/components/confirmation-provider"
 import { authClient } from "@/lib/auth/auth-client"
 import { Role } from "@/types/types"

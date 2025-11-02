@@ -9,21 +9,17 @@ import {
 } from "@/components/ui/sidebar"
 import {
   CircleUserRound,
-  Frame,
+  Gem,
   Group,
   Mail,
-  Map,
   Network,
-  PieChart,
-  Settings2,
   Shield,
 } from "lucide-react"
 import { DashboardNavMain } from "./nav-main"
-import { DashboardNavProjects } from "./nav-projects"
+import { DashboardNavSubjects } from "./nav-projects"
 import { DashboardNavUser } from "./nav-user"
 import { OrganizationSwitcher } from "./organization-switcher"
 
-// This is sample data.
 const data = {
   navMain: [
     {
@@ -52,7 +48,7 @@ const data = {
       icon: Mail,
       items: [
         {
-          title: "List Invitations",
+          title: "List all Invitations",
           url: "/dashboard/invitations",
         },
         {
@@ -60,7 +56,7 @@ const data = {
           url: "/dashboard/invitations/send",
         },
         {
-          title: "List user invitations",
+          title: "List user Invitations",
           url: "/dashboard/invitations/user",
         },
       ],
@@ -130,46 +126,35 @@ const data = {
         },
       ],
     },
-
-    {
-      title: "Settings",
-      url: "",
-      icon: Settings2,
-      items: [
-        {
-          title: "General",
-          url: "#",
-        },
-        {
-          title: "Teams",
-          url: "#",
-        },
-        {
-          title: "Billing",
-          url: "#",
-        },
-        {
-          title: "Limits",
-          url: "#",
-        },
-      ],
-    },
+    // {
+    //   title: "Settings",
+    //   url: "",
+    //   icon: Settings2,
+    //   items: [
+    //     {
+    //       title: "General",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Teams",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Billing",
+    //       url: "#",
+    //     },
+    //     {
+    //       title: "Limits",
+    //       url: "#",
+    //     },
+    //   ],
+    // },
   ],
-  projects: [
+  subjects: [
     {
-      name: "Design Engineering",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Sales & Marketing",
-      url: "#",
-      icon: PieChart,
-    },
-    {
-      name: "Travel",
-      url: "#",
-      icon: Map,
+      name: "Products",
+      url: "/dashboard/products",
+      icon: Gem,
     },
   ],
 }
@@ -184,7 +169,7 @@ export function DashboardSidebar({
       </SidebarHeader>
       <SidebarContent>
         <DashboardNavMain items={data.navMain} />
-        <DashboardNavProjects projects={data.projects} />
+        <DashboardNavSubjects subjects={data.subjects} />
       </SidebarContent>
       <SidebarFooter>
         <DashboardNavUser />
