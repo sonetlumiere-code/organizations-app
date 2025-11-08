@@ -1,6 +1,22 @@
+import InvitationsTable from "@/components/dashboard/invitations/invitations-table"
 import { DashboardContainer } from "@/components/dashboard/layout/dashboard-container"
+import { auth } from "@/lib/auth/auth"
+import { verifyUser } from "@/lib/auth/verify-user"
+import { headers } from "next/headers"
 
-const AllInvitationsPage = () => {
+const OrganizationInvitationsPage = async () => {
+  const session = await verifyUser()
+  const orgId = session.session.activeOrganizationId
+
+  const data = await auth.api.listInvitations({
+    headers: await headers(),
+    query: {
+      organizationId: orgId,
+    },
+  })
+
+  console.log({ data })
+
   return (
     <DashboardContainer
       breadcrumbs={[
@@ -8,9 +24,9 @@ const AllInvitationsPage = () => {
         { label: "All Invitations" },
       ]}
     >
-      <div>All InvitationsPage</div>
+      <InvitationsTable invitations={data} />
     </DashboardContainer>
   )
 }
 
-export default AllInvitationsPage
+export default OrganizationInvitationsPage

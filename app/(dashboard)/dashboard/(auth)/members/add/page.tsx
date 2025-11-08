@@ -1,7 +1,15 @@
 import { DashboardContainer } from "@/components/dashboard/layout/dashboard-container"
 import { AddMember } from "@/components/dashboard/members/add-member"
+import { InviteMember } from "@/components/dashboard/members/invite-member"
 import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import {
   Table,
   TableBody,
@@ -12,8 +20,10 @@ import {
 } from "@/components/ui/table"
 import UserAvatar from "@/components/user-avatar"
 import { getUsersAvailableToAdd } from "@/data/user/user"
+import { auth } from "@/lib/auth/auth"
 import { verifyUser } from "@/lib/auth/verify-user"
 import { format } from "date-fns"
+import { headers } from "next/headers"
 
 const AddMemberPage = async () => {
   const session = await verifyUser()
@@ -21,6 +31,24 @@ const AddMemberPage = async () => {
   const users = await getUsersAvailableToAdd(
     session.session.activeOrganizationId!
   )
+
+  const canInvite = await auth.api.hasPermission({
+    headers: await headers(),
+    body: {
+      permissions: {
+        invitation: ["create"],
+      },
+    },
+  })
+
+  const canAddMember = await auth.api.hasPermission({
+    headers: await headers(),
+    body: {
+      permissions: {
+        member: ["create"],
+      },
+    },
+  })
 
   return (
     <DashboardContainer
@@ -73,12 +101,35 @@ const AddMemberPage = async () => {
                 </TableCell>
 
                 <TableCell className="text-right">
-                  <AddMember user={user}>
-                    <Button className="cursor-pointer">
-                      <Icons.plus className="w-4 h-4" />
-                      <p>Add</p>
-                    </Button>
-                  </AddMember>
+                  <DropdownMenu modal={false}>
+                    <DropdownMenuTrigger asChild>
+                      <Button aria-haspopup="true" size="icon" variant="ghost">
+                        <Icons.moreHorizontal className="h-4 w-4" />
+                        <span className="sr-only">Show menu</span>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+                      {canAddMember.success && (
+                        <AddMember user={user}>
+                          <DropdownMenuItem>
+                            <Icons.plus className="w-4 h-4" />
+                            <p>Add</p>
+                          </DropdownMenuItem>
+                        </AddMember>
+                      )}
+
+                      {canInvite.success && (
+                        <InviteMember user={user}>
+                          <DropdownMenuItem>
+                            <Icons.send className="w-4 h-4" />
+                            <p>Invite</p>
+                          </DropdownMenuItem>
+                        </InviteMember>
+                      )}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 </TableCell>
               </TableRow>
             ))

@@ -29,7 +29,7 @@ const data = {
       isActive: true,
       items: [
         {
-          title: "List Organizations",
+          title: "Organizations",
           url: "/dashboard/organizations",
         },
         {
@@ -48,7 +48,7 @@ const data = {
       icon: Mail,
       items: [
         {
-          title: "List all Invitations",
+          title: "Organization Invitations",
           url: "/dashboard/invitations",
         },
         {
@@ -56,7 +56,7 @@ const data = {
           url: "/dashboard/invitations/send",
         },
         {
-          title: "List user Invitations",
+          title: "User Invitations",
           url: "/dashboard/invitations/user",
         },
       ],
@@ -67,7 +67,7 @@ const data = {
       icon: CircleUserRound,
       items: [
         {
-          title: "List Members",
+          title: "Members",
           url: "/dashboard/members",
         },
         {

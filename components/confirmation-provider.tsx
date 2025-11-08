@@ -15,7 +15,7 @@ export interface ConfirmationOptions {
   catchOnCancel?: boolean
   variant?: "destructive" | "info"
   title: string
-  description: string
+  description?: string
   countDown?: number
 }
 

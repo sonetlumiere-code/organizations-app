@@ -15,8 +15,10 @@ import {
   Network,
   Plus,
   Rocket,
+  Send,
   Trash2,
   User,
+  X,
 } from "lucide-react"
 
 export const Icons = {
@@ -65,9 +67,11 @@ export const Icons = {
   network: Network,
   plus: Plus,
   rocket: Rocket,
+  send: Send,
   spinner: Loader2,
   trash2: Trash2,
   user: User,
+  x: X,
 }
 
 export type Icon = keyof typeof Icons

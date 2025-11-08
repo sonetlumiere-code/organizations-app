@@ -4,6 +4,7 @@ import { Icons } from "@/components/icons"
 import OnboardingForm from "@/components/onboarding/on-boarding-form"
 import { buttonVariants } from "@/components/ui/button"
 import { auth } from "@/lib/auth/auth"
+import { checkIsOnboarded } from "@/lib/check-is-onboarded"
 import { cn } from "@/lib/utils"
 import { LANDING_ROUTE } from "@/routes"
 import { Metadata } from "next"
@@ -19,12 +20,22 @@ export const metadata: Metadata = {
 }
 
 const OnBoardingPage = async () => {
+  const reqHeaders = await headers()
   const session = await auth.api.getSession({
-    headers: await headers(),
+    headers: reqHeaders,
   })
 
   if (!session) {
     redirect(LANDING_ROUTE)
+  }
+
+  const isOnboarded = await checkIsOnboarded(session.user.id)
+
+  if (isOnboarded) {
+    await auth.api.signOut({
+      headers: reqHeaders,
+    })
+    // if user is already onboarded, force a sign out to clear session
   }
 
   return (

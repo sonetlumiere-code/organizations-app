@@ -68,6 +68,29 @@ export const auth = betterAuth({
     organization({
       ac,
       roles: { owner, admin, member },
+      requireEmailVerificationOnInvitation: true,
+      async sendInvitationEmail(data) {
+        const inviteLink = `${process.env.BASE_URL}/api/accept-invitation/${data.id}`
+        await resend.emails.send({
+          from: process.env.RESEND_EMAIL,
+          to: data.email,
+          subject: `Invitation to ${data.organization.name} organization`,
+          html: `Invitation to join ${data.organization.name} organization. Click here to accept: <a href="${inviteLink}">${inviteLink}</a>`,
+        })
+      },
+      async onInvitationAccepted(data) {
+        console.log("on invitation accepted", data)
+        await resend.emails.send({
+          from: process.env.RESEND_EMAIL,
+          to: data.email,
+          subject: `Welcome to ${data.organization.name}`,
+          html: `You have been successfully added as a member of the ${data.organization.name} organization.`,
+        })
+      },
+      allowUserToCreateOrganization: async (user) => {
+        const subscription = await getSubscription(user.id)
+        return subscription.plan === "pro"
+      },
       organizationHooks: {
         afterCreateOrganization: async ({ organization, user }) => {
           await resend.emails.send({
@@ -77,10 +100,6 @@ export const auth = betterAuth({
             html: `New organization created. Organization name: ${organization.name}. Organization slug: ${organization.slug}`,
           })
         },
-      },
-      allowUserToCreateOrganization: async (user) => {
-        const subscription = await getSubscription(user.id)
-        return subscription.plan === "pro"
       },
     }),
     nextCookies(),

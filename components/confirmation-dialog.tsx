@@ -26,7 +26,7 @@ interface ConfirmationDialogProps {
   isMobile: boolean
   seconds: number
   title: string
-  description: string
+  description?: string
   variant?: "destructive" | "info"
   onSubmit: () => void
   onClose: () => void
@@ -88,7 +88,7 @@ export const ConfirmationDialog: FC<ConfirmationDialogProps> = ({
             onClick={onSubmit}
             className="w-24"
           >
-            {seconds > 0 ? seconds : "Confirmar"}
+            {seconds > 0 ? seconds : "Confirm"}
           </Button>
           <Button variant="outline" onClick={onClose}>
             Cancel

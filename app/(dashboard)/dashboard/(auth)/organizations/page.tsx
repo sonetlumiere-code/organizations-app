@@ -63,8 +63,6 @@ const OrganizationsPage = async () => {
 
   return (
     <DashboardContainer breadcrumbs={[{ label: "Organizations" }]}>
-      <h1>Organizations</h1>
-
       <Table>
         <TableHeader>
           <TableRow>

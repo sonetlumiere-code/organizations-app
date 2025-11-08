@@ -1,4 +1,6 @@
 import { DashboardContainer } from "@/components/dashboard/layout/dashboard-container"
+import { InviteMember } from "@/components/dashboard/members/invite-member"
+import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import {
   Table,
@@ -71,7 +73,12 @@ const SendInvitationPage = async () => {
                 </TableCell>
 
                 <TableCell className="text-right">
-                  <Button>Invite</Button>
+                  <InviteMember user={user}>
+                    <Button>
+                      <Icons.send className="w-4 h-4" />
+                      Invite
+                    </Button>
+                  </InviteMember>
                 </TableCell>
               </TableRow>
             ))
