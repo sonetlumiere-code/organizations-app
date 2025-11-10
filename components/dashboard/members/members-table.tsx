@@ -1,5 +1,6 @@
 import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -34,7 +35,7 @@ const MembersTable = async ({ members }: { members: PopulatedMember[] }) => {
     },
   })
 
-  return (
+  return members.length > 0 ? (
     <Table>
       <TableHeader>
         <TableRow>
@@ -93,6 +94,14 @@ const MembersTable = async ({ members }: { members: PopulatedMember[] }) => {
         ))}
       </TableBody>
     </Table>
+  ) : (
+    <Card>
+      <CardContent className="py-20">
+        <div className="flex flex-col items-center gap-1 text-center">
+          <h3 className="tracking-tight">No members to display</h3>
+        </div>
+      </CardContent>
+    </Card>
   )
 }
 

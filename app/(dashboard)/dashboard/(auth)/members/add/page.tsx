@@ -3,6 +3,7 @@ import { AddMember } from "@/components/dashboard/members/add-member"
 import { InviteMember } from "@/components/dashboard/members/invite-member"
 import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -57,28 +58,22 @@ const AddMemberPage = async () => {
         { label: "Add member" },
       ]}
     >
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>User</TableHead>
-            <TableHead className="hidden md:md:table-cell">
-              Email Verified
-            </TableHead>
-            <TableHead className="hidden md:md:table-cell">Joined at</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {users.length === 0 ? (
+      {users.length > 0 ? (
+        <Table>
+          <TableHeader>
             <TableRow>
-              <TableCell colSpan={4}>
-                <div className="py-6 text-center text-sm text-muted-foreground">
-                  No users to invite found.
-                </div>
-              </TableCell>
+              <TableHead>User</TableHead>
+              <TableHead className="hidden md:md:table-cell">
+                Email Verified
+              </TableHead>
+              <TableHead className="hidden md:md:table-cell">
+                Joined at
+              </TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
-          ) : (
-            users.map((user) => (
+          </TableHeader>
+          <TableBody>
+            {users.map((user) => (
               <TableRow key={user.id}>
                 <TableCell>
                   <div className="flex items-center gap-3">
@@ -132,10 +127,18 @@ const AddMemberPage = async () => {
                   </DropdownMenu>
                 </TableCell>
               </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
+            ))}
+          </TableBody>
+        </Table>
+      ) : (
+        <Card>
+          <CardContent className="py-20">
+            <div className="flex flex-col items-center gap-1 text-center">
+              <h3 className="tracking-tight">No users to add found</h3>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </DashboardContainer>
   )
 }

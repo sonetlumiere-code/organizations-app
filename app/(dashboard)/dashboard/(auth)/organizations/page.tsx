@@ -3,6 +3,7 @@ import DeleteOrganization from "@/components/dashboard/organizations/delete-orga
 import { Icons } from "@/components/icons"
 import OrganizationAvatar from "@/components/organization-avatar"
 import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -63,26 +64,18 @@ const OrganizationsPage = async () => {
 
   return (
     <DashboardContainer breadcrumbs={[{ label: "Organizations" }]}>
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead>Organization</TableHead>
-            <TableHead>Slug</TableHead>
-            <TableHead className="hidden md:md:table-cell">Created</TableHead>
-            <TableHead className="text-right">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {userOrganizations.length === 0 ? (
+      {userOrganizations.length > 0 ? (
+        <Table>
+          <TableHeader>
             <TableRow>
-              <TableCell colSpan={4}>
-                <div className="py-6 text-center text-sm text-muted-foreground">
-                  No organizations found.
-                </div>
-              </TableCell>
+              <TableHead>Organization</TableHead>
+              <TableHead>Slug</TableHead>
+              <TableHead className="hidden md:md:table-cell">Created</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
             </TableRow>
-          ) : (
-            userOrganizations.map((org) => (
+          </TableHeader>
+          <TableBody>
+            {userOrganizations.map((org) => (
               <TableRow key={org.id}>
                 <TableCell>
                   <div className="flex items-center gap-3">
@@ -148,10 +141,18 @@ const OrganizationsPage = async () => {
                   </DropdownMenu>
                 </TableCell>
               </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
+            ))}
+          </TableBody>
+        </Table>
+      ) : (
+        <Card>
+          <CardContent className="py-20">
+            <div className="flex flex-col items-center gap-1 text-center">
+              <h3 className="tracking-tight">No organizations found.</h3>
+            </div>
+          </CardContent>
+        </Card>
+      )}
     </DashboardContainer>
   )
 }
