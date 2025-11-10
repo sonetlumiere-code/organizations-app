@@ -17,9 +17,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import UserAvatar from "@/components/user-avatar"
-import { auth } from "@/lib/auth/auth"
+import { auth, User } from "@/lib/auth/auth"
 import { PopulatedMember } from "@/types/types"
-import { User } from "@prisma/client"
 import { format } from "date-fns"
 import { headers } from "next/headers"
 import Link from "next/link"

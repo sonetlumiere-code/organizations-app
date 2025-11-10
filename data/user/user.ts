@@ -1,12 +1,13 @@
 import "server-only"
 
+import { User } from "@/lib/auth/auth"
 import prisma from "@/lib/db"
 import { Prisma } from "@prisma/client"
 
 export const getUsers = async (args?: Prisma.UserFindManyArgs) => {
   try {
     const users = await prisma.user.findMany(args)
-    return users
+    return users as User[]
   } catch (error) {
     console.error("Error fetching users:", error)
     return null
@@ -16,7 +17,7 @@ export const getUsers = async (args?: Prisma.UserFindManyArgs) => {
 export const getUser = async (args?: Prisma.UserFindFirstArgs) => {
   try {
     const user = await prisma.user.findFirst(args)
-    return user
+    return user as User
   } catch (error) {
     console.error("Error fetching user:", error)
     return null
@@ -48,7 +49,7 @@ export const getUsersAvailableToAdd = async (orgId: string) => {
       where: { email: { notIn: excludedEmails } },
     })
 
-    return users
+    return users as User[]
   } catch (error) {
     console.error("Error fetching users available to invite:", error)
     return []

@@ -1,4 +1,5 @@
-import { Member, Organization, User } from "@prisma/client"
+import { User } from "@/lib/auth/auth"
+import { Member, Organization } from "@prisma/client"
 
 export type ActionResponse<T = unknown> = {
   success: boolean

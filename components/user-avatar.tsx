@@ -1,5 +1,5 @@
+import { User } from "@/lib/auth/auth"
 import { cn } from "@/lib/utils"
-import { User } from "better-auth/*"
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 type UserAvatarProps = {

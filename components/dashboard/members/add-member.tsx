@@ -2,9 +2,9 @@
 
 import { addMember } from "@/actions/auth/members/members"
 import { useConfirmation } from "@/components/confirmation-provider"
+import { User } from "@/lib/auth/auth"
 import { authClient } from "@/lib/auth/auth-client"
 import { Role } from "@/types/types"
-import { User } from "@prisma/client"
 import { useRouter } from "next/navigation"
 import { ReactElement } from "react"
 import { toast } from "sonner"

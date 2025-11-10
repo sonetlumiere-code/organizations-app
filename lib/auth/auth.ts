@@ -104,4 +104,15 @@ export const auth = betterAuth({
     }),
     nextCookies(),
   ],
+  user: {
+    additionalFields: {
+      role: {
+        type: "string",
+        input: false,
+      },
+    },
+  },
 })
+
+export type Session = typeof auth.$Infer.Session
+export type User = typeof auth.$Infer.Session.user

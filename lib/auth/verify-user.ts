@@ -1,12 +1,9 @@
 import { LANDING_ROUTE, ONBOARDING_ROUTE } from "@/routes"
-import { headers } from "next/headers"
 import { redirect } from "next/navigation"
-import { auth } from "./auth"
+import { getCachedSession } from "./cached-session"
 
 export const verifyUser = async () => {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  })
+  const session = await getCachedSession()
 
   if (!session) {
     return redirect(LANDING_ROUTE)

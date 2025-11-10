@@ -15,7 +15,7 @@ const AdminMenu = async () => {
     <Suspense fallback={<Skeleton className="rounded-full w-10 h-10" />}>
       <>
         {session?.user ? (
-          <AdminProfileDropdown user={session.user} session={session.session} />
+          <AdminProfileDropdown session={session} />
         ) : (
           <div className="flex gap-3">
             <Link

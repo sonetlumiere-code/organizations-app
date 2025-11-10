@@ -7,25 +7,23 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import UserAvatar from "@/components/user-avatar"
+import { Session } from "@/lib/auth/auth"
 import { DASHBOARD_ROUTE, ONBOARDING_ROUTE } from "@/routes"
-import { Session, User } from "better-auth/*"
 import Link from "next/link"
 
 type AdminDropdownProps = {
-  user: User
-  session: Session & { activeOrganizationId?: string | null }
+  session: Session
 }
 
-const AdminProfileDropdown = async ({ user, session }: AdminDropdownProps) => {
-  console.log(user, session)
+const AdminProfileDropdown = async ({ session }: AdminDropdownProps) => {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger>
-        <UserAvatar user={user} />
+        <UserAvatar user={session.user} />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
         <DropdownMenuItem>
-          {session.activeOrganizationId ? (
+          {session.session.activeOrganizationId ? (
             <>
               <Icons.layoutDashboard className="w-4 h-4 mr-1" />
               <Link href={DASHBOARD_ROUTE}>Dashboard</Link>
