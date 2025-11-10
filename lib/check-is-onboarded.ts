@@ -6,7 +6,6 @@ export async function checkIsOnboarded(userId: string): Promise<boolean> {
     where: {
       userId,
     },
-    include: { organization: true },
   })
 
   if (!members?.length) {

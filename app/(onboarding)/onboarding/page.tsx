@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 
 const OnBoardingPage = async () => {
   const reqHeaders = await headers()
+
   const session = await auth.api.getSession({
     headers: reqHeaders,
   })
@@ -32,10 +33,7 @@ const OnBoardingPage = async () => {
   const isOnboarded = await checkIsOnboarded(session.user.id)
 
   if (isOnboarded) {
-    await auth.api.signOut({
-      headers: reqHeaders,
-    })
-    // if user is already onboarded, force a sign out to clear session
+    redirect(LANDING_ROUTE)
   }
 
   return (
