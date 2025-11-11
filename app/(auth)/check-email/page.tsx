@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { Icons } from "@/components/icons"
 import { buttonVariants } from "@/components/ui/button"
-import prisma from "@/lib/db"
+import { getUser } from "@/data/user/user"
 import { cn } from "@/lib/utils"
 import { LANDING_ROUTE, SIGN_UP_ROUTE } from "@/routes"
 import Link from "next/link"
@@ -18,7 +18,7 @@ const CheckEmail = async ({ searchParams }: CheckEmailProps) => {
 
   if (!email) redirect(LANDING_ROUTE)
 
-  const dbEmail = await prisma.user.findFirst({
+  const dbEmail = await getUser({
     where: {
       email,
       emailVerified: false,
