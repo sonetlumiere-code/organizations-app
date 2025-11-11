@@ -1,4 +1,5 @@
-// lib/auth/getSessionCached.ts
+import "server-only"
+
 import { auth } from "@/lib/auth/auth"
 import { headers } from "next/headers"
 import { cache } from "react"
