@@ -16,7 +16,11 @@ import {
   SignupSchema,
   signupSchema,
 } from "@/lib/validations/sign-up-validation"
-import { CHECK_EMAIL_ROUTE, ONBOARDING_ROUTE } from "@/routes"
+import {
+  CHECK_EMAIL_ROUTE,
+  FORGET_PASSWORD_ROUTE,
+  ONBOARDING_ROUTE,
+} from "@/routes"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -151,7 +155,9 @@ const SignUpForm = () => {
                     className="px-0 font-normal"
                     disabled={isSubmitting}
                   >
-                    <Link href="/reset-password">Forgot your password?</Link>
+                    <Link href={FORGET_PASSWORD_ROUTE}>
+                      Forgot your password?
+                    </Link>
                   </Button>
                 </FormItem>
               )}

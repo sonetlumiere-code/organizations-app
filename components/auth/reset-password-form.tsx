@@ -1,7 +1,6 @@
 "use client"
 
 import FormError from "@/components/auth/form-error"
-import FormSuccess from "@/components/auth/form-success"
 import { Icons } from "@/components/icons"
 import { Button, buttonVariants } from "@/components/ui/button"
 import {
@@ -19,19 +18,26 @@ import {
   ResetPasswordSchema,
   resetPasswordSchema,
 } from "@/lib/validations/reset-password-validation"
+import { SIGN_IN_ROUTE } from "@/routes"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
+import { useRouter, useSearchParams } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
+import { toast } from "sonner"
 
 const ResetPasswordForm = () => {
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string>("")
-  const [success, setSuccess] = useState<string>("")
+
+  const searchParams = useSearchParams()
+  const token = searchParams.get("token")
+  const router = useRouter()
 
   const form = useForm<ResetPasswordSchema>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
-      email: "",
+      password: "",
     },
   })
 
@@ -42,19 +48,17 @@ const ResetPasswordForm = () => {
 
   async function onSubmit(values: ResetPasswordSchema) {
     setError("")
-    setSuccess("")
 
-    const { data, error } = await authClient.forgetPassword({
-      email: values.email,
-      redirectTo: "/new-password",
+    const { error } = await authClient.resetPassword({
+      newPassword: values.password,
+      token,
     })
-
-    console.log(data)
 
     if (error) {
       setError(error.message)
     } else {
-      setSuccess("Email sent. Please check your inbox.")
+      toast.success("Password changed successfully. You can now sign in.")
+      router.replace(SIGN_IN_ROUTE)
     }
   }
 
@@ -63,12 +67,38 @@ const ResetPasswordForm = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
         <FormField
           control={form.control}
-          name="email"
+          name="password"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="email" disabled={isSubmitting} {...field} />
+                <div className="relative">
+                  <Input
+                    placeholder="password"
+                    type={showPassword ? "text" : "password"}
+                    autoCapitalize="none"
+                    autoComplete="on"
+                    disabled={isSubmitting}
+                    {...field}
+                  />
+                  <span className="absolute inset-y-0 end-1">
+                    <Button
+                      type="button"
+                      size="icon"
+                      variant="ghost"
+                      className="hover:bg-transparent"
+                      disabled={isSubmitting}
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    >
+                      <span className="sr-only"></span>
+                      {showPassword ? (
+                        <Icons.eyeOff className="h-5 w-5" />
+                      ) : (
+                        <Icons.eye className="h-5 w-5" />
+                      )}
+                    </Button>
+                  </span>
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -76,18 +106,17 @@ const ResetPasswordForm = () => {
         />
 
         <FormError message={error} />
-        <FormSuccess message={success} />
 
         <Button type="submit" disabled={isSubmitting}>
           {isSubmitting ? (
             <Icons.spinner className="w-4 h-4 animate-spin" />
           ) : (
-            <>Send Email</>
+            <>Change password</>
           )}
         </Button>
 
         <Link
-          href="/sign-in"
+          href={SIGN_IN_ROUTE}
           className={cn(buttonVariants({ variant: "ghost" }), "")}
         >
           Sign In

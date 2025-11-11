@@ -1,9 +1,8 @@
 import { z } from "zod"
+import { passwordSchema } from "./password-validation"
 
 export const resetPasswordSchema = z.object({
-  email: z.email({
-    message: "Email is required.",
-  }),
+  password: passwordSchema,
 })
 
 export type ResetPasswordSchema = z.infer<typeof resetPasswordSchema>

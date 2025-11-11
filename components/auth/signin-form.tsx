@@ -16,7 +16,7 @@ import {
   SigninSchema,
   signinSchema,
 } from "@/lib/validations/sign-in-validation"
-import { DASHBOARD_ROUTE } from "@/routes"
+import { DASHBOARD_ROUTE, FORGET_PASSWORD_ROUTE } from "@/routes"
 import { zodResolver } from "@hookform/resolvers/zod"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
@@ -131,7 +131,9 @@ export default function SignInForm() {
                     className="px-0 font-normal"
                     disabled={isSubmitting}
                   >
-                    <Link href="/reset-password">Forgot your password?</Link>
+                    <Link href={FORGET_PASSWORD_ROUTE}>
+                      Forgot your password?
+                    </Link>
                   </Button>
                 </FormItem>
               )}

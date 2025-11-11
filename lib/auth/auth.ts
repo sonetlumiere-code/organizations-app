@@ -2,11 +2,14 @@ import { getActiveOrganization } from "@/data/auth/organization"
 import { getSubscription } from "@/data/subscription/subscription"
 import { ac, admin, member, owner } from "@/lib/auth/permissions"
 import prisma from "@/lib/db"
+import { RESET_PASSWORD_ROUTE } from "@/routes"
 import { betterAuth } from "better-auth"
 import { prismaAdapter } from "better-auth/adapters/prisma"
+import { APIError, createAuthMiddleware } from "better-auth/api"
 import { nextCookies } from "better-auth/next-js"
 import { organization } from "better-auth/plugins"
 import { Resend } from "resend"
+import { passwordSchema } from "../validations/password-validation"
 
 const resend = new Resend(process.env.RESEND_API_KEY)
 
@@ -111,6 +114,19 @@ export const auth = betterAuth({
         input: false,
       },
     },
+  },
+  hooks: {
+    before: createAuthMiddleware(async (ctx) => {
+      if (ctx.path === "/sign-up/email" || ctx.path === RESET_PASSWORD_ROUTE) {
+        const password = (ctx.body as Record<string, unknown>).password
+        const { error } = passwordSchema.safeParse(password)
+        if (error) {
+          throw new APIError("BAD_REQUEST", {
+            message: "Password not strong enough.",
+          })
+        }
+      }
+    }),
   },
 })
 
