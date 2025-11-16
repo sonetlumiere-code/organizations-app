@@ -23,12 +23,14 @@ import { useRouter } from "next/navigation"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
 import FormError from "./form-error"
+import GoogleAuth from "./google-auth"
 
 export default function SignInForm() {
   const router = useRouter()
 
   const [showPassword, setShowPassword] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [isGoogleLoading, setIsGoogleLoading] = useState(false)
 
   const form = useForm<SigninSchema>({
     resolver: zodResolver(signinSchema),
@@ -79,7 +81,7 @@ export default function SignInForm() {
                   <FormControl>
                     <Input
                       placeholder="email@example.com"
-                      disabled={isSubmitting}
+                      disabled={isSubmitting || isGoogleLoading}
                       {...field}
                     />
                   </FormControl>
@@ -101,7 +103,7 @@ export default function SignInForm() {
                         type={showPassword ? "text" : "password"}
                         autoCapitalize="none"
                         autoComplete="on"
-                        disabled={isSubmitting}
+                        disabled={isSubmitting || isGoogleLoading}
                         {...field}
                       />
                       <span className="absolute inset-y-0 end-1">
@@ -110,7 +112,7 @@ export default function SignInForm() {
                           size="icon"
                           variant="ghost"
                           className="hover:bg-transparent"
-                          disabled={isSubmitting}
+                          disabled={isSubmitting || isGoogleLoading}
                           onClick={() => setShowPassword((prev) => !prev)}
                         >
                           <span className="sr-only"></span>
@@ -129,7 +131,7 @@ export default function SignInForm() {
                     variant="link"
                     asChild
                     className="px-0 font-normal"
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || isGoogleLoading}
                   >
                     <Link href={FORGET_PASSWORD_ROUTE}>
                       Forgot your password?
@@ -142,7 +144,7 @@ export default function SignInForm() {
 
           <FormError message={errorMessage} />
 
-          <Button type="submit" disabled={isSubmitting}>
+          <Button type="submit" disabled={isSubmitting || isGoogleLoading}>
             {isSubmitting ? (
               <Icons.spinner className="w-4 h-4 animate-spin" />
             ) : (
@@ -151,6 +153,23 @@ export default function SignInForm() {
           </Button>
         </form>
       </Form>
+
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t" />
+        </div>
+        <div className="relative flex justify-center text-xs uppercase">
+          <span className="bg-background px-2 text-muted-foreground">
+            Or continue with
+          </span>
+        </div>
+      </div>
+
+      <GoogleAuth
+        isSubmitting={isSubmitting}
+        isGoogleLoading={isGoogleLoading}
+        setIsGoogleLoading={setIsGoogleLoading}
+      />
     </div>
   )
 }
