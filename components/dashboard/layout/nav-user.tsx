@@ -1,12 +1,12 @@
 "use client"
 
 import {
-  BadgeCheck,
   Bell,
   ChevronsUpDown,
   CreditCard,
   LogOut,
   Sparkles,
+  User,
 } from "lucide-react"
 
 import SignOutButton from "@/components/sign-out-button"
@@ -28,6 +28,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton"
 import UserAvatar from "@/components/user-avatar"
 import { authClient } from "@/lib/auth/auth-client"
+import Link from "next/link"
 
 export function DashboardNavUser() {
   const { isMobile } = useSidebar()
@@ -78,10 +79,12 @@ export function DashboardNavUser() {
               </DropdownMenuGroup>
               <DropdownMenuSeparator />
               <DropdownMenuGroup>
-                <DropdownMenuItem>
-                  <BadgeCheck />
-                  Account
-                </DropdownMenuItem>
+                <Link href={"/dashboard/user-profile"}>
+                  <DropdownMenuItem>
+                    <User />
+                    Profile
+                  </DropdownMenuItem>
+                </Link>
                 <DropdownMenuItem>
                   <CreditCard />
                   Billing
