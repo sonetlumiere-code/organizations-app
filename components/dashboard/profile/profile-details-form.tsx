@@ -3,14 +3,6 @@
 import { Icons } from "@/components/icons"
 import { Button } from "@/components/ui/button"
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
-import {
   Form,
   FormControl,
   FormField,
@@ -48,6 +40,7 @@ const ProfileDetailsForm = ({ user }: { user: User }) => {
     setValue,
     watch,
     formState: { isSubmitting },
+    reset,
   } = form
 
   const router = useRouter()
@@ -60,6 +53,7 @@ const ProfileDetailsForm = ({ user }: { user: User }) => {
       console.error(error)
     } else {
       toast("User profile updated succesfully.")
+      reset()
       router.refresh()
     }
   }
@@ -81,76 +75,69 @@ const ProfileDetailsForm = ({ user }: { user: User }) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Card>
-          <CardHeader>
-            <CardTitle>Profile Details</CardTitle>
-            <CardDescription>Update profile</CardDescription>
-          </CardHeader>
-          <CardContent className="grid gap-3">
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input
-                      {...field}
-                      placeholder="Full name"
-                      disabled={isSubmitting}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="image"
-              render={() => (
-                <FormItem>
-                  <FormLabel>Profile image</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => handleImageChange(e)}
-                      disabled={isSubmitting}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            {imagePreview && (
-              <div className="relative size-16">
-                <UserAvatar user={user} size={"sm"} />
-                <Button
-                  type="button"
-                  variant="ghost"
-                  className="absolute -top-2 -right-2 size-6 rounded-full"
-                  onClick={() => form.setValue("image", null)}
-                  aria-label="Remove image"
-                  disabled={isSubmitting}
-                >
-                  <XIcon className="size-4" />
-                </Button>
-              </div>
+      <form onSubmit={handleSubmit(onSubmit)} className="grid gap-6">
+        <div className="space-y-3">
+          <FormField
+            control={form.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    placeholder="Full name"
+                    disabled={isSubmitting}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
             )}
-          </CardContent>
-          <CardFooter className="flex justify-end">
-            <Button type="submit" className="min-w-36" disabled={isSubmitting}>
-              {isSubmitting ? (
-                <Icons.spinner className="h-4 w-4 animate-spin" />
-              ) : (
-                "Save changes"
-              )}
-            </Button>
-          </CardFooter>
-        </Card>
+          />
+
+          <FormField
+            control={form.control}
+            name="image"
+            render={() => (
+              <FormItem>
+                <FormLabel>Profile image</FormLabel>
+                <FormControl>
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleImageChange(e)}
+                    disabled={isSubmitting}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {imagePreview && (
+            <div className="relative size-16">
+              <UserAvatar user={user} size={"sm"} />
+              <Button
+                type="button"
+                variant="ghost"
+                className="absolute -top-2 -right-2 size-6 rounded-full"
+                onClick={() => setValue("image", null)}
+                aria-label="Remove image"
+                disabled={isSubmitting}
+              >
+                <XIcon className="size-4" />
+              </Button>
+            </div>
+          )}
+        </div>
+
+        <Button type="submit" className="min-w-36" disabled={isSubmitting}>
+          {isSubmitting ? (
+            <Icons.spinner className="h-4 w-4 animate-spin" />
+          ) : (
+            "Save changes"
+          )}
+        </Button>
       </form>
     </Form>
   )
